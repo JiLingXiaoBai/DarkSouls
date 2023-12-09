@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActorController : MonoBehaviour
 {
     public GameObject model;
-    public PlayerInput pi;
+    public UserInput pi;
     public float walkSpeed = 1.4f;
     public float runMultiplier = 2.7f;
     public float jumpVelocity = 4.0f;
@@ -27,9 +27,17 @@ public class ActorController : MonoBehaviour
     private Vector3 deltaPos;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        pi = GetComponent<PlayerInput>();
+        UserInput[] inputs = GetComponents<UserInput>();
+        foreach (var input in inputs)
+        {
+            if (input.enabled == true)
+            {
+                pi = input;
+                break;
+            }
+        }
         anim = model.GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
@@ -163,7 +171,7 @@ public class ActorController : MonoBehaviour
     {
         if (CheckState("attack1hC", "attack"))
         {
-            deltaPos += (Vector3)_deltaPos;
+            deltaPos += (0.8f * deltaPos + 0.2f * (Vector3)_deltaPos) / 1.0f;
         }
     }
 }

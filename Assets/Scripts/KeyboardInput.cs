@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+public class KeyboardInput : UserInput
 {
     // Variable
     [Header("===== Key Settings =====")]
@@ -20,34 +20,6 @@ public class PlayerInput : MonoBehaviour
     public string keyJLeft;
     public string keyJUp;
     public string keyJDown;
-
-    [Header("===== Output Signals =====")]
-    public float Dup;
-    public float Dright;
-    public float Dmag;
-    public Vector3 Dvec;
-    public float Jup;
-    public float Jright;
-
-    public bool run;
-    public bool jump;
-    private bool lastJump;
-    public bool attack;
-    private bool lastAttack;
-
-    [Header("===== Others =====")]
-    public bool inputEnabled = true;
-
-    private float targetDup;
-    private float targetDright;
-    private float velocityDup;
-    private float velocityDright;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -96,13 +68,5 @@ public class PlayerInput : MonoBehaviour
             attack = false;
         }
         lastAttack = newAttack;       
-    }
-
-    private Vector2 SquareToCircle(Vector2 input)
-    {
-        Vector2 output = Vector2.zero;
-        output.x = input.x * Mathf.Sqrt(1 - input.y * input.y / 2.0f);
-        output.y = input.y * Mathf.Sqrt(1 - input.x * input.x / 2.0f);
-        return output;
     }
 }

@@ -238,9 +238,10 @@ GameObject:
   m_Component:
   - component: {fileID: 223160970}
   - component: {fileID: 223160967}
-  - component: {fileID: 223160971}
   - component: {fileID: 223160972}
+  - component: {fileID: 223160971}
   - component: {fileID: 223160973}
+  - component: {fileID: 223160974}
   m_Layer: 0
   m_Name: PlayerHandle
   m_TagString: Untagged
@@ -301,6 +302,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6098bdd946a742f4abad2f88d7a3d3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dup: 0
+  Dright: 0
+  Dmag: 0
+  Dvec: {x: 0, y: 0, z: 0}
+  Jup: 0
+  Jright: 0
+  run: 0
+  jump: 0
+  attack: 0
+  inputEnabled: 1
   keyUp: w
   keyDown: s
   keyLeft: a
@@ -313,16 +324,6 @@ MonoBehaviour:
   keyJLeft: left
   keyJUp: up
   keyJDown: down
-  Dup: 0
-  Dright: 0
-  Dmag: 0
-  Dvec: {x: 0, y: 0, z: 0}
-  Jup: 0
-  Jright: 0
-  run: 0
-  jump: 0
-  attack: 0
-  inputEnabled: 1
 --- !u!114 &223160972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +371,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &223160974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223160966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9361b846f83d7dd4098292bec98f89ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dup: 0
+  Dright: 0
+  Dmag: 0
+  Dvec: {x: 0, y: 0, z: 0}
+  Jup: 0
+  Jright: 0
+  run: 0
+  jump: 0
+  attack: 0
+  inputEnabled: 1
+  axisX: axisX
+  axisY: axisY
+  axisJright: axis4
+  axisJup: axis5
+  btnA: btn0
+  btnB: btn1
+  btnC: btn2
+  btnD: btn3
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,6 +806,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: e4fc90c5f039c784faef625442c2acd4, type: 2}
     - target: {fileID: 9500000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
@@ -979,7 +1014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1facd97038c2ded4b8aa02be9895c5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pi: {fileID: 223160971}
   horizontalSpeed: 100
   verticalSpeed: 80
   cameraDampValue: 0.05

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public PlayerInput pi;
     public float horizontalSpeed = 100.0f;
     public float verticalSpeed = 80.0f;
     public float cameraDampValue = 0.05f;
@@ -15,13 +14,16 @@ public class CameraController : MonoBehaviour
     private GameObject cameraGO;
     private float tempEulerX;
     private Vector3 cameraDampVelocity;
+    private UserInput pi;
     
     void Awake()
     {
         cameraHandle = transform.parent.gameObject;
         playerHandle = cameraHandle.transform.parent.gameObject;
-        model = playerHandle.GetComponent<ActorController>().model;
         tempEulerX = 20.0f;
+        ActorController ac = playerHandle.GetComponent<ActorController>();
+        model = ac.model;
+        pi = ac.pi;
         cameraGO = Camera.main.gameObject;
     }
 
@@ -37,6 +39,7 @@ public class CameraController : MonoBehaviour
 
         cameraGO.transform.position =
             Vector3.SmoothDamp(cameraGO.transform.position, transform.position, ref cameraDampVelocity, cameraDampValue);
-        cameraGO.transform.eulerAngles = transform.eulerAngles;
+        // cameraGO.transform.eulerAngles = transform.eulerAngles;
+        cameraGO.transform.LookAt(cameraHandle.transform);
     }
 }
