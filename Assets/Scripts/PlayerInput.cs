@@ -16,15 +16,24 @@ public class PlayerInput : MonoBehaviour
     public string keyC;
     public string keyD;
 
+    public string keyJRight;
+    public string keyJLeft;
+    public string keyJUp;
+    public string keyJDown;
+
     [Header("===== Output Signals =====")]
     public float Dup;
     public float Dright;
     public float Dmag;
     public Vector3 Dvec;
+    public float Jup;
+    public float Jright;
 
     public bool run;
     public bool jump;
     private bool lastJump;
+    public bool attack;
+    private bool lastAttack;
 
     [Header("===== Others =====")]
     public bool inputEnabled = true;
@@ -43,6 +52,9 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Jup = (Input.GetKey(keyJUp) ? 1.0f : 0) - (Input.GetKey(keyJDown) ? 1.0f : 0);
+        Jright = (Input.GetKey(keyJRight) ? 1.0f : 0) - (Input.GetKey(keyJLeft) ? 1.0f : 0);
+        
         targetDup = (Input.GetKey(keyUp) ? 1.0f : 0f) - (Input.GetKey(keyDown) ? 1.0f : 0f);
         targetDright = (Input.GetKey(keyRight) ? 1.0f : 0f) - (Input.GetKey(keyLeft) ? 1.0f : 0f);
 
@@ -73,6 +85,17 @@ public class PlayerInput : MonoBehaviour
             jump = false;
         }
         lastJump = newJump;
+        
+        bool newAttack = Input.GetKey(keyC);
+        if (newAttack != lastAttack && newAttack)
+        {
+            attack = true;
+        }
+        else
+        {
+            attack = false;
+        }
+        lastAttack = newAttack;       
     }
 
     private Vector2 SquareToCircle(Vector2 input)
