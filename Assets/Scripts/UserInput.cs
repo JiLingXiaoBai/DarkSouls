@@ -19,6 +19,7 @@ public abstract class UserInput : MonoBehaviour
     public bool attack;
     protected bool lastAttack;
     public bool roll;
+    public bool lockOn;
  
     [Header("===== Others =====")]
     public bool inputEnabled = true;
