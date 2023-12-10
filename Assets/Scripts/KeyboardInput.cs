@@ -21,11 +21,25 @@ public class KeyboardInput : UserInput
     public string keyJUp;
     public string keyJDown;
 
+    [Header("===== Mouse Settings =====")] 
+    public bool mouseEnable = false;
+    public float mouseSensitivityX = 1.0f;
+    public float mouseSensitivityY = 1.0f;
+    
+
     // Update is called once per frame
     void Update()
     {
-        Jup = (Input.GetKey(keyJUp) ? 1.0f : 0) - (Input.GetKey(keyJDown) ? 1.0f : 0);
-        Jright = (Input.GetKey(keyJRight) ? 1.0f : 0) - (Input.GetKey(keyJLeft) ? 1.0f : 0);
+        if (mouseEnable)
+        {
+            Jup = Input.GetAxis("Mouse Y") * 3f * mouseSensitivityY;
+            Jright = Input.GetAxis("Mouse X") * 2.5f * mouseSensitivityX;
+        }
+        else
+        {
+            Jup = (Input.GetKey(keyJUp) ? 1.0f : 0f) - (Input.GetKey(keyJDown) ? 1.0f : 0f);
+            Jright = (Input.GetKey(keyJRight) ? 1.0f : 0f) - (Input.GetKey(keyJLeft) ? 1.0f : 0f);
+        }
         
         targetDup = (Input.GetKey(keyUp) ? 1.0f : 0f) - (Input.GetKey(keyDown) ? 1.0f : 0f);
         targetDright = (Input.GetKey(keyRight) ? 1.0f : 0f) - (Input.GetKey(keyLeft) ? 1.0f : 0f);
@@ -46,6 +60,7 @@ public class KeyboardInput : UserInput
         Dvec = Dright2 * transform.right + Dup2 * transform.forward;
 
         run = Input.GetKey(keyA);
+        defense = Input.GetKey(keyD);
 
         bool newJump = Input.GetKey(keyB);
         if (newJump != lastJump && newJump)

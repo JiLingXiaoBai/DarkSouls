@@ -25,6 +25,9 @@ public class CameraController : MonoBehaviour
         model = ac.model;
         pi = ac.pi;
         cameraGO = Camera.main.gameObject;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 
     void FixedUpdate()

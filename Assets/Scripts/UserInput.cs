@@ -13,10 +13,12 @@ public abstract class UserInput : MonoBehaviour
     public float Jright;
  
     public bool run;
+    public bool defense;
     public bool jump;
     protected bool lastJump;
     public bool attack;
     protected bool lastAttack;
+    public bool roll;
  
     [Header("===== Others =====")]
     public bool inputEnabled = true;
