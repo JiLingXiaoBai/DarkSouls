@@ -15,12 +15,13 @@ public abstract class UserInput : MonoBehaviour
     public bool run;
     public bool defense;
     public bool jump;
-    protected bool lastJump;
-    public bool attack;
-    protected bool lastAttack;
     public bool roll;
     public bool lockOn;
- 
+    public bool lb;
+    public bool lt;
+    public bool rb; 
+    public bool rt; 
+     
     [Header("===== Others =====")]
     public bool inputEnabled = true;
  

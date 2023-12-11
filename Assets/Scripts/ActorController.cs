@@ -12,11 +12,11 @@ public class ActorController : MonoBehaviour
     public float jumpVelocity = 4.0f;
     public float rollVelocity = 3.0f;
 
-    [Space(10)]
-    [Header("===== Friction Settings =====")]
+    [Space(10)] [Header("===== Friction Settings =====")]
     public PhysicMaterial frictionOne;
+
     public PhysicMaterial frictionZero;
-    
+
     private Animator anim;
     private Rigidbody rigid;
     private Vector3 planarVec;
@@ -25,9 +25,10 @@ public class ActorController : MonoBehaviour
     private bool lockPlanar = false;
     private bool trackDirection = false;
     private CapsuleCollider col;
-    private float lerpTarget;
     private Vector3 deltaPos;
-    
+
+    public bool leftIsShield = true;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -40,6 +41,7 @@ public class ActorController : MonoBehaviour
                 break;
             }
         }
+
         anim = model.GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
@@ -64,24 +66,48 @@ public class ActorController : MonoBehaviour
             anim.SetFloat("forward", localDvec.z * (pi.run ? 2.0f : 1.0f));
             anim.SetFloat("right", localDvec.x * (pi.run ? 2.0f : 1.0f));
         }
-        
-        anim.SetBool("defense", pi.defense);
-        
+
         if (pi.roll || rigid.velocity.magnitude > 7f)
         {
             anim.SetTrigger("roll");
             canAttack = false;
         }
-        
+
         if (pi.jump)
         {
             anim.SetTrigger("jump");
             canAttack = false;
         }
 
-        if (pi.attack && CheckState("ground") && canAttack)
+        if ((pi.rb || pi.lb) && (CheckState("ground") || CheckStateTag("attack")) && canAttack)
         {
-            anim.SetTrigger("attack");
+            if (pi.rb)
+            {
+                anim.SetBool("R0L1", false);
+                anim.SetTrigger("attack");
+            }
+            else if (pi.lb && !leftIsShield)
+            {
+                anim.SetBool("R0L1", true);
+                anim.SetTrigger("attack");
+            }
+        }
+
+        if (leftIsShield)
+        {
+            if (CheckState("ground"))
+            {
+                anim.SetBool("defense", pi.defense);
+                anim.SetLayerWeight(anim.GetLayerIndex("defense"), 1f);
+            }
+            else
+            {
+                anim.SetBool("defense", false);
+            }
+        }
+        else
+        {
+            anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0f);
         }
 
         if (camcon.lockState == false)
@@ -106,7 +132,7 @@ public class ActorController : MonoBehaviour
             {
                 model.transform.forward = planarVec.normalized;
             }
-            
+
             if (lockPlanar == false)
             {
                 planarVec = pi.Dvec * walkSpeed * (pi.run ? runMultiplier : 1.0f);
@@ -118,7 +144,13 @@ public class ActorController : MonoBehaviour
     {
         return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsName(stateName);
     }
-    
+
+    private bool CheckStateTag(string tagName, string layerName = "Base Layer")
+    {
+        return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsTag(tagName);
+    }
+
+
     void FixedUpdate()
     {
         rigid.position += deltaPos;
@@ -187,31 +219,17 @@ public class ActorController : MonoBehaviour
     public void OnAttack1hAEnter()
     {
         pi.inputEnabled = false;
-        lerpTarget = 1.0f;
     }
 
     public void OnAttack1hAUpdate()
     {
         thrustVec = model.transform.forward * anim.GetFloat("attack1hAVelocity");
-        anim.SetLayerWeight(anim.GetLayerIndex("attack"),
-            Mathf.Lerp(anim.GetLayerWeight(anim.GetLayerIndex("attack")), lerpTarget, 0.4f));
     }
 
-    public void OnAttackIdleEnter()
-    {
-        pi.inputEnabled = true;
-        lerpTarget = 0f;
-    }
-
-    public void OnAttackIdleUpdate()
-    {
-        anim.SetLayerWeight(anim.GetLayerIndex("attack"),
-            Mathf.Lerp(anim.GetLayerWeight(anim.GetLayerIndex("attack")), lerpTarget, 0.4f));
-    }
 
     public void OnUpdateRM(object _deltaPos)
     {
-        if (CheckState("attack1hC", "attack"))
+        if (CheckState("attack1hC"))
         {
             deltaPos += (0.8f * deltaPos + 0.2f * (Vector3)_deltaPos) / 1.0f;
         }

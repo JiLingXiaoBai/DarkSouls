@@ -150,6 +150,9 @@ public class JoystickInput : UserInput
     public MyButton buttonX = new MyButton();
     public MyButton buttonY = new MyButton();
     public MyButton buttonLB = new MyButton();
+    public MyButton buttonRB = new MyButton();
+    public MyButton buttonLT = new MyButton();
+    public MyButton buttonRT = new MyButton();
     public MyButton buttonRS = new MyButton();
     
     
@@ -161,6 +164,9 @@ public class JoystickInput : UserInput
         buttonX.Tick(Input.GetKey(X));
         buttonY.Tick(Input.GetKey(Y));
         buttonLB.Tick(Input.GetKey(LB));
+        buttonRB.Tick(Input.GetKey(RB));
+        buttonLT.Tick(Input.GetAxis(LT) != 0f);
+        buttonRT.Tick(Input.GetAxis(RT) != 0f);
         buttonRS.Tick(Input.GetKey(RS));
         
         Jup = Input.GetAxis(RSV);
@@ -189,7 +195,10 @@ public class JoystickInput : UserInput
         roll = buttonA.OnReleased && buttonA.IsDelaying;
         
         defense = buttonLB.IsPressing;
-        attack = buttonX.OnPressed;
+        rb = buttonRB.OnPressed;
+        rt = buttonRT.OnPressed;
+        lb = buttonLB.OnPressed;
+        lt = buttonLT.OnPressed;
         lockOn = buttonRS.OnPressed;
     }
 }
