@@ -187,9 +187,7 @@ public class JoystickInput : UserInput
         Vector2 tempDAxis = SquareToCircle(new Vector2(Dright, Dup));
         var Dright2 = tempDAxis.x;
         var Dup2 = tempDAxis.y;
-        Dmag = Mathf.Sqrt(Dup2 * Dup2 + Dright2 * Dright2);
-        Dvec = Dright2 * transform.right + Dup2 * transform.forward;
-
+        UpdateDmagDvec(Dup2, Dright2);
         run = (buttonA.IsPressing && !buttonA.IsDelaying) || buttonA.IsExtending;
         jump = buttonA.OnPressed && buttonA.IsExtending;
         roll = buttonA.OnReleased && buttonA.IsDelaying;

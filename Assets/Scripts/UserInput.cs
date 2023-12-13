@@ -37,4 +37,10 @@ public abstract class UserInput : MonoBehaviour
         output.y = input.y * Mathf.Sqrt(1 - input.x * input.x / 2.0f);
         return output;
     }
+
+    protected void UpdateDmagDvec(float _Dup, float _Dright)
+    {
+        Dmag = Mathf.Sqrt(_Dup * _Dup + _Dright * _Dright);
+        Dvec = _Dright * transform.right + _Dup * transform.forward;
+    }
 }
