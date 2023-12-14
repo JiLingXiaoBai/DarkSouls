@@ -11,7 +11,6 @@ public abstract class UserInput : MonoBehaviour
     public Vector3 Dvec;
     public float Jup;
     public float Jright;
- 
     public bool run;
     public bool defense;
     public bool jump;
@@ -24,7 +23,6 @@ public abstract class UserInput : MonoBehaviour
      
     [Header("===== Others =====")]
     public bool inputEnabled = true;
- 
     protected float targetDup;
     protected float targetDright;
     protected float velocityDup;

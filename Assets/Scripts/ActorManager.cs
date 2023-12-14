@@ -13,6 +13,7 @@ public class ActorManager : MonoBehaviour
     public WeaponManager wm;
     public StateManager sm;
 
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,7 +34,6 @@ public class ActorManager : MonoBehaviour
         {
             tempInst = go.AddComponent<T>();
         }
-
         tempInst.am = this;
         return tempInst;
     }
@@ -43,9 +43,55 @@ public class ActorManager : MonoBehaviour
     {
     }
 
-    public void DoDamage()
+    public void TryDoDamage()
     {
-        //ac.IssueTrigger("hit");
+        if (sm.isImmortal)
+        {
+            // Do nothing;
+        }
+        else if (sm.isDefense)
+        {
+            Blocked();
+        }
+        else
+        {
+            if (sm.HP <= 0)
+            {
+                // Already dead.
+            }
+            else
+            {
+                sm.AddHp(-5f);
+                if (sm.HP > 0)
+                {
+                    Hit();
+                }
+                else
+                {
+                    Die();
+                }
+            }
+        }
+    }
+
+    public void Blocked()
+    {
+        ac.IssueTrigger("blocked");
+    }
+
+    public void Hit()
+    {
+        ac.IssueTrigger("hit");
+    }
+
+    public void Die()
+    {
         ac.IssueTrigger("die");
+        ac.pi.inputEnabled = false;
+        if (ac.camcon.lockState == true)
+        {
+            ac.camcon.LockUnlock();
+        }
+        ac.camcon.enabled = false;
     }
 }

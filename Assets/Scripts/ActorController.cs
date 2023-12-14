@@ -16,7 +16,6 @@ public class ActorController : MonoBehaviour
     public PhysicMaterial frictionOne;
 
     public PhysicMaterial frictionZero;
-
     private Animator anim;
     private Rigidbody rigid;
     private Vector3 planarVec;
@@ -79,7 +78,8 @@ public class ActorController : MonoBehaviour
             canAttack = false;
         }
 
-        if ((pi.rb || pi.lb) && (CheckState("ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack)
+        if ((pi.rb || pi.lb) && (CheckState("ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) &&
+            canAttack)
         {
             if (pi.rb)
             {
@@ -95,7 +95,7 @@ public class ActorController : MonoBehaviour
 
         if (leftIsShield)
         {
-            if (CheckState("ground"))
+            if (CheckState("ground") || CheckState("blocked"))
             {
                 anim.SetBool("defense", pi.defense);
                 anim.SetLayerWeight(anim.GetLayerIndex("defense"), 1f);
@@ -235,6 +235,17 @@ public class ActorController : MonoBehaviour
     {
         pi.inputEnabled = false;
         planarVec = Vector3.zero;
+    }
+
+    public void OnDieEnter()
+    {
+        pi.inputEnabled = false;
+        planarVec = Vector3.zero;
+    }
+
+    public void OnBlockedEnter()
+    {
+        pi.inputEnabled = false;
     }
 
     public void OnUpdateRM(object _deltaPos)

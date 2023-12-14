@@ -20,7 +20,7 @@ public class BattleManager : ActorManagerInterface
     {
         if (col.tag == "Weapon")
         {
-            am.DoDamage();
+            am.TryDoDamage();
         }
     }
 }
