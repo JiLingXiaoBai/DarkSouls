@@ -79,7 +79,7 @@ public class ActorController : MonoBehaviour
             canAttack = false;
         }
 
-        if ((pi.rb || pi.lb) && (CheckState("ground") || CheckStateTag("attack")) && canAttack)
+        if ((pi.rb || pi.lb) && (CheckState("ground") || CheckStateTag("attackR") || CheckStateTag("attackL")) && canAttack)
         {
             if (pi.rb)
             {
@@ -140,12 +140,12 @@ public class ActorController : MonoBehaviour
         }
     }
 
-    private bool CheckState(string stateName, string layerName = "Base Layer")
+    public bool CheckState(string stateName, string layerName = "Base Layer")
     {
         return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsName(stateName);
     }
 
-    private bool CheckStateTag(string tagName, string layerName = "Base Layer")
+    public bool CheckStateTag(string tagName, string layerName = "Base Layer")
     {
         return anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsTag(tagName);
     }
@@ -226,6 +226,16 @@ public class ActorController : MonoBehaviour
         thrustVec = model.transform.forward * anim.GetFloat("attack1hAVelocity");
     }
 
+    public void OnAttackExit()
+    {
+        model.SendMessage("WeaponDisable");
+    }
+
+    public void OnHitEnter()
+    {
+        pi.inputEnabled = false;
+        planarVec = Vector3.zero;
+    }
 
     public void OnUpdateRM(object _deltaPos)
     {
@@ -233,5 +243,10 @@ public class ActorController : MonoBehaviour
         {
             deltaPos += (0.8f * deltaPos + 0.2f * (Vector3)_deltaPos) / 1.0f;
         }
+    }
+
+    public void IssueTrigger(string triggerName)
+    {
+        anim.SetTrigger(triggerName);
     }
 }
