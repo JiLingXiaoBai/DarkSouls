@@ -93,6 +93,26 @@ public class ActorController : MonoBehaviour
             }
         }
 
+        if ((pi.rt || pi.lt) && (CheckState("ground") || CheckStateTag("attackR") || CheckStateTag("attackL") &&
+                canAttack))
+        {
+            if (pi.rt)
+            {
+                // do right heavy attack
+            }
+            else if (pi.lt)
+            {
+                if (!leftIsShield)
+                {
+                    // do left heavy attack
+                }
+                else
+                {
+                    anim.SetTrigger("counterBack");
+                }
+            }
+        }
+
         if (leftIsShield)
         {
             if (CheckState("ground") || CheckState("blocked"))
@@ -103,6 +123,7 @@ public class ActorController : MonoBehaviour
             else
             {
                 anim.SetBool("defense", false);
+                anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0f);
             }
         }
         else
@@ -235,17 +256,31 @@ public class ActorController : MonoBehaviour
     {
         pi.inputEnabled = false;
         planarVec = Vector3.zero;
+        model.SendMessage("WeaponDisable");
     }
 
     public void OnDieEnter()
     {
         pi.inputEnabled = false;
         planarVec = Vector3.zero;
+        model.SendMessage("WeaponDisable");
     }
 
     public void OnBlockedEnter()
     {
         pi.inputEnabled = false;
+    }
+
+    public void OnStunnedEnter()
+    {
+        pi.inputEnabled = false;
+        planarVec = Vector3.zero;
+    }
+
+    public void OnCounterBackEnter()
+    {
+        pi.inputEnabled = false;
+        planarVec = Vector3.zero;
     }
 
     public void OnUpdateRM(object _deltaPos)

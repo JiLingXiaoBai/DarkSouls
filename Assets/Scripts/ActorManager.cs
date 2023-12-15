@@ -43,9 +43,28 @@ public class ActorManager : MonoBehaviour
     {
     }
 
-    public void TryDoDamage()
+    public void SetIsCounterBack(bool value)
     {
-        if (sm.isImmortal)
+        sm.isCounterBackEnable = value;
+    }
+
+    public void TryDoDamage(WeaponController targetWc, bool attackValid, bool counterValid)
+    {
+        if (sm.isCounterBackSuccess)
+        {
+            if (counterValid)
+            {
+                targetWc.wm.am.Stunned();
+            }
+        }
+        else if (sm.isCounterBackFailure)
+        {
+            if (attackValid)
+            {
+                HitOrDie(false);
+            }
+        }
+        else if (sm.isImmortal)
         {
             // Do nothing;
         }
@@ -55,28 +74,44 @@ public class ActorManager : MonoBehaviour
         }
         else
         {
-            if (sm.HP <= 0)
+            if (attackValid)
             {
-                // Already dead.
-            }
-            else
-            {
-                sm.AddHp(-5f);
-                if (sm.HP > 0)
-                {
-                    Hit();
-                }
-                else
-                {
-                    Die();
-                }
+                HitOrDie(true);
             }
         }
+    }
+
+    public void Stunned()
+    {
+        ac.IssueTrigger("stunned");
     }
 
     public void Blocked()
     {
         ac.IssueTrigger("blocked");
+    }
+
+    public void HitOrDie(bool doHitAnimation)
+    {
+        if (sm.HP <= 0)
+        {
+            // Already dead.
+        }
+        else
+        {
+            sm.AddHp(-5f);
+            if (sm.HP > 0)
+            {
+                if (doHitAnimation)
+                {
+                    Hit();
+                }
+            }
+            else
+            {
+                Die();
+            }
+        }
     }
 
     public void Hit()

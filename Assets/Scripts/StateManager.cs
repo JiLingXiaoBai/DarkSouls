@@ -19,11 +19,15 @@ public class StateManager : ActorManagerInterface
     public bool isDie;
     public bool isBlocked;
     public bool isDefense;
+    public bool isCounterBack;  //related to state
+    public bool isCounterBackEnable;   //related to animation events
 
     [Header("2nd order state flags")]
     public bool isAllowDefense;
 
     public bool isImmortal;
+    public bool isCounterBackSuccess;
+    public bool isCounterBackFailure;
 
     void Start()
     {
@@ -41,6 +45,9 @@ public class StateManager : ActorManagerInterface
         isHit = am.ac.CheckState("hit");
         isDie = am.ac.CheckState("die");
         isBlocked = am.ac.CheckState("blocked");
+        isCounterBack = am.ac.CheckState("counterBack");
+        isCounterBackSuccess = isCounterBackEnable;
+        isCounterBackFailure = isCounterBack && !isCounterBackEnable;
         
         isAllowDefense = isGround || isBlocked;
         isDefense = isAllowDefense && am.ac.CheckState("defense1h", "defense");
@@ -52,6 +59,8 @@ public class StateManager : ActorManagerInterface
         HP += value;
         HP = Mathf.Clamp(HP, 0f, HPMax);
     }
+
+    
 
     public void Test()
     {
