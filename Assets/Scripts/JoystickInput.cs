@@ -191,7 +191,7 @@ public class JoystickInput : UserInput
         run = (buttonA.IsPressing && !buttonA.IsDelaying) || buttonA.IsExtending;
         jump = buttonA.OnPressed && buttonA.IsExtending;
         roll = buttonA.OnReleased && buttonA.IsDelaying;
-        
+        action = buttonB.OnPressed;
         defense = buttonLB.IsPressing;
         rb = buttonRB.OnPressed;
         rt = buttonRT.OnPressed;

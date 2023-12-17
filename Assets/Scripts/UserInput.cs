@@ -11,8 +11,10 @@ public abstract class UserInput : MonoBehaviour
     public Vector3 Dvec;
     public float Jup;
     public float Jright;
+    
     public bool run;
     public bool defense;
+    public bool action;
     public bool jump;
     public bool roll;
     public bool lockOn;

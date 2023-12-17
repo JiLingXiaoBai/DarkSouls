@@ -16,7 +16,7 @@ public class ActorController : MonoBehaviour
     public PhysicMaterial frictionOne;
 
     public PhysicMaterial frictionZero;
-    private Animator anim;
+    public Animator anim;
     private Rigidbody rigid;
     private Vector3 planarVec;
     private Vector3 thrustVec;
@@ -27,6 +27,10 @@ public class ActorController : MonoBehaviour
     private Vector3 deltaPos;
 
     public bool leftIsShield = true;
+
+    public delegate void OnActionDelegate();
+
+    public event OnActionDelegate OnAction;
 
     // Start is called before the first frame update
     void Awake()
@@ -111,6 +115,11 @@ public class ActorController : MonoBehaviour
                     anim.SetTrigger("counterBack");
                 }
             }
+        }
+
+        if (pi.action)
+        {
+            OnAction.Invoke();
         }
 
         if (leftIsShield)
@@ -288,6 +297,12 @@ public class ActorController : MonoBehaviour
         model.SendMessage("CounterBackDisable");
     }
 
+    public void OnLockEnter()
+    {
+        pi.inputEnabled = false;
+        planarVec = Vector3.zero;
+    }
+
     public void OnUpdateRM(object _deltaPos)
     {
         if (CheckState("attack1hC"))
@@ -299,5 +314,10 @@ public class ActorController : MonoBehaviour
     public void IssueTrigger(string triggerName)
     {
         anim.SetTrigger(triggerName);
+    }
+
+    public void SetBool(string boolName, bool value)
+    {
+        anim.SetBool(boolName, value);
     }
 }
