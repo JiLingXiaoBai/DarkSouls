@@ -283,6 +283,11 @@ public class ActorController : MonoBehaviour
         planarVec = Vector3.zero;
     }
 
+    public void OnCounterBackExit()
+    {
+        model.SendMessage("CounterBackDisable");
+    }
+
     public void OnUpdateRM(object _deltaPos)
     {
         if (CheckState("attack1hC"))
