@@ -56,6 +56,7 @@ public class DirectorManager : ActorManagerInterface
                         MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
                         MySuperPlayableBehaviour mybehav = myclip.template;
                         mybehav.myFloat = 777f;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
                         pd.SetReferenceValue(myclip.am.exposedName, attacker);
                     }
                 }
@@ -67,6 +68,7 @@ public class DirectorManager : ActorManagerInterface
                         MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
                         MySuperPlayableBehaviour mybehav = myclip.template;
                         mybehav.myFloat = 6f;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
                         pd.SetReferenceValue(myclip.am.exposedName, victim);
                     }
                 }

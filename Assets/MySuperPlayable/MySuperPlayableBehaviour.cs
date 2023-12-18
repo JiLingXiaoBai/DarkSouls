@@ -39,6 +39,6 @@ public class MySuperPlayableBehaviour : PlayableBehaviour
 
     public override void PrepareFrame(Playable playable, FrameData info)
     {
-        am.LockUnlockActorController(true);
+        am.LockUnlockActorController(false);
     }
 }
