@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
         pi = ac.pi;
         if (!isAI)
         {
-            cameraGO = Camera.main.gameObject;
+            cameraGO = GameObject.Find("Camera");
             lockDot.enabled = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

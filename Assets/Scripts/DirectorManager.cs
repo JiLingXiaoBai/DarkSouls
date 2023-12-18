@@ -35,29 +35,51 @@ public class DirectorManager : ActorManagerInterface
 
     public void PlayFrontStab(string timelineName, ActorManager attacker, ActorManager victim)
     {
+        if (pd.playableAsset != null)
+        {
+            return;
+        }
+        
         if (timelineName == "frontStab")
         {
             pd.playableAsset = Instantiate(frontStab);
 
-            foreach (var track in pd.playableAsset.outputs)
+            TimelineAsset timeline = (TimelineAsset)pd.playableAsset;
+
+            foreach (var track in timeline.GetOutputTracks())
             {
-                if (track.streamName == "Attacker Script")
+                if (track.name == "Attacker Script")
                 {
-                    pd.SetGenericBinding(track.sourceObject, attacker);
+                    pd.SetGenericBinding(track, attacker);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        mybehav.myFloat = 777f;
+                        pd.SetReferenceValue(myclip.am.exposedName, attacker);
+                    }
                 }
-                else if (track.streamName == "Victim Script")
+                else if (track.name == "Victim Script")
                 {
-                    pd.SetGenericBinding(track.sourceObject, victim);
+                    pd.SetGenericBinding(track, victim);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        mybehav.myFloat = 6f;
+                        pd.SetReferenceValue(myclip.am.exposedName, victim);
+                    }
                 }
-                else if (track.streamName == "Attacker Animation")
+                else if (track.name == "Attacker Animation")
                 {
-                    pd.SetGenericBinding(track.sourceObject, attacker.ac.anim);
+                    pd.SetGenericBinding(track, attacker.ac.anim);
                 }
-                else if (track.streamName == "Victim Animation")
+                else if (track.name == "Victim Animation")
                 {
-                    pd.SetGenericBinding(track.sourceObject, victim.ac.anim);
+                    pd.SetGenericBinding(track, victim.ac.anim);
                 }
             }
+
             pd.Play();
         }
     }

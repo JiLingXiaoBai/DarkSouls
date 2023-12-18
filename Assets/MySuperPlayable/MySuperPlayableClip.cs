@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 using UnityEngine.Timeline;
 
 [Serializable]
 public class MySuperPlayableClip : PlayableAsset, ITimelineClipAsset
 {
     public MySuperPlayableBehaviour template = new MySuperPlayableBehaviour ();
-    public ExposedReference<Camera> myCamera;
+    public ExposedReference<ActorManager> am;
 
     public ClipCaps clipCaps
     {
@@ -18,7 +19,7 @@ public class MySuperPlayableClip : PlayableAsset, ITimelineClipAsset
     {
         var playable = ScriptPlayable<MySuperPlayableBehaviour>.Create (graph, template);
         MySuperPlayableBehaviour clone = playable.GetBehaviour ();
-        clone.myCamera = myCamera.Resolve (graph.GetResolver ());
+        clone.am = am.Resolve (graph.GetResolver ());
         return playable;
     }
 }
