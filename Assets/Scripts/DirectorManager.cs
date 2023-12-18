@@ -84,5 +84,9 @@ public class DirectorManager : ActorManagerInterface
 
             pd.Play();
         }
+        else if (timelineName == "openBox")
+        {
+            Debug.Log("try to play openBox");
+        }
     }
 }

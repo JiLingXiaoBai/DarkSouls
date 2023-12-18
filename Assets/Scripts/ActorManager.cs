@@ -39,6 +39,10 @@ public class ActorManager : MonoBehaviour
             {
                 dm.PlayFrontStab("frontStab", this, im.overlapEcastms[0].am);
             }
+            else if (im.overlapEcastms[0].eventName == "openBox")
+            {
+                dm.PlayFrontStab("openBox", this, im.overlapEcastms[0].am);
+            }
         }
     }
 
