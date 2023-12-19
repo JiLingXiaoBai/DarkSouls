@@ -117,11 +117,6 @@ public class ActorController : MonoBehaviour
             }
         }
 
-        if (pi.action)
-        {
-            OnAction.Invoke();
-        }
-
         if (leftIsShield)
         {
             if (CheckState("ground") || CheckState("blocked"))
@@ -142,9 +137,12 @@ public class ActorController : MonoBehaviour
 
         if (camcon.lockState == false)
         {
-            if (pi.Dmag > 0.1f)
+            if (pi.inputEnabled == true)
             {
-                model.transform.forward = Vector3.Slerp(model.transform.forward, pi.Dvec, 0.3f);
+                if (pi.Dmag > 0.1f)
+                {
+                    model.transform.forward = Vector3.Slerp(model.transform.forward, pi.Dvec, 0.3f);
+                }
             }
 
             if (lockPlanar == false)
@@ -167,6 +165,11 @@ public class ActorController : MonoBehaviour
             {
                 planarVec = pi.Dvec * walkSpeed * (pi.run ? runMultiplier : 1.0f);
             }
+        }
+        
+        if (pi.action)
+        {
+            OnAction.Invoke();
         }
     }
 

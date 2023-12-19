@@ -9,7 +9,6 @@ public class MySuperPlayableBehaviour : PlayableBehaviour
     public ActorManager am;
     public float myFloat;
 
-    private PlayableDirector pd;
 
     public override void OnPlayableCreate(Playable playable)
     {
@@ -17,15 +16,11 @@ public class MySuperPlayableBehaviour : PlayableBehaviour
 
     public override void OnGraphStart(Playable playable)
     {
-        pd = playable.GetGraph().GetResolver() as PlayableDirector;
     }
 
     public override void OnGraphStop(Playable playable)
     {
-        if (pd != null)
-        {
-            pd.playableAsset = null;
-        }
+        
     }
 
     public override void OnBehaviourPlay(Playable playable, FrameData info)
@@ -34,11 +29,11 @@ public class MySuperPlayableBehaviour : PlayableBehaviour
 
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
-        am.LockUnlockActorController(true);
+        am.LockUnlockActorController(false);
     }
 
     public override void PrepareFrame(Playable playable, FrameData info)
     {
-        am.LockUnlockActorController(false);
+        am.LockUnlockActorController(true);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActorManager : MonoBehaviour
@@ -27,7 +26,7 @@ public class ActorManager : MonoBehaviour
         sm = Bind<StateManager>(gameObject);
         dm = Bind<DirectorManager>(gameObject);
         im = Bind<InteractionManager>(sensor);
-        
+
         ac.OnAction += DoAction;
     }
 
@@ -35,13 +34,22 @@ public class ActorManager : MonoBehaviour
     {
         if (im.overlapEcastms.Count != 0)
         {
-            if (im.overlapEcastms[0].eventName == "frontStab")
+            if (im.overlapEcastms[0].active == true)
             {
-                dm.PlayFrontStab("frontStab", this, im.overlapEcastms[0].am);
-            }
-            else if (im.overlapEcastms[0].eventName == "openBox")
-            {
-                dm.PlayFrontStab("openBox", this, im.overlapEcastms[0].am);
+                if (im.overlapEcastms[0].eventName == "frontStab")
+                {
+                    dm.PlayFrontStab("frontStab", this, im.overlapEcastms[0].am);
+                }
+                else if (im.overlapEcastms[0].eventName == "openBox")
+                {
+                    if (BattleManager.CheckAnglePlayer(ac.model, im.overlapEcastms[0].am.gameObject, 15))
+                    {
+                        im.overlapEcastms[0].active = false;
+                        transform.position = im.overlapEcastms[0].am.transform.position + im.overlapEcastms[0].am.transform.TransformVector(im.overlapEcastms[0].offset);
+                        ac.model.transform.LookAt(im.overlapEcastms[0].am.transform, Vector3.up);
+                        dm.PlayFrontStab("openBox", this, im.overlapEcastms[0].am);
+                    }
+                }
             }
         }
     }
@@ -159,5 +167,4 @@ public class ActorManager : MonoBehaviour
     {
         ac.SetBool("lock", value);
     }
-
 }

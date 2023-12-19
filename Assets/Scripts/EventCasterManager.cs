@@ -6,6 +6,7 @@ public class EventCasterManager : ActorManagerInterface
 {
     public string eventName;
     public bool active;
+    public Vector3 offset = new Vector3(0, 0, 1f);
     
     // Start is called before the first frame update
     void Start()

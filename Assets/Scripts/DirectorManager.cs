@@ -12,6 +12,8 @@ public class DirectorManager : ActorManagerInterface
     [Header("=== Timeline Assets ===")]
     public TimelineAsset frontStab;
 
+    public TimelineAsset openBox;
+
     [Header("=== Assets Settings ===")]
     public ActorManager attacker;
 
@@ -35,7 +37,7 @@ public class DirectorManager : ActorManagerInterface
 
     public void PlayFrontStab(string timelineName, ActorManager attacker, ActorManager victim)
     {
-        if (pd.playableAsset != null)
+        if (pd.state == PlayState.Playing)
         {
             return;
         }
@@ -86,7 +88,45 @@ public class DirectorManager : ActorManagerInterface
         }
         else if (timelineName == "openBox")
         {
-            Debug.Log("try to play openBox");
+            pd.playableAsset = Instantiate(openBox);
+
+            TimelineAsset timeline = (TimelineAsset)pd.playableAsset;
+
+            foreach (var track in timeline.GetOutputTracks())
+            {
+                if (track.name == "Player Script")
+                {
+                    pd.SetGenericBinding(track, attacker);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
+                        pd.SetReferenceValue(myclip.am.exposedName, attacker);
+                    }
+                }
+                else if (track.name == "Box Script")
+                {
+                    pd.SetGenericBinding(track, victim);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
+                        pd.SetReferenceValue(myclip.am.exposedName, victim);
+                    }
+                }
+                else if (track.name == "Player Animation")
+                {
+                    pd.SetGenericBinding(track, attacker.ac.anim);
+                }
+                else if (track.name == "Box Animation")
+                {
+                    pd.SetGenericBinding(track, victim.ac.anim);
+                }
+            }
+
+            pd.Play();
         }
     }
 }
