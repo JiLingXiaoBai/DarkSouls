@@ -13,6 +13,7 @@ public class DirectorManager : ActorManagerInterface
     public TimelineAsset frontStab;
 
     public TimelineAsset openBox;
+    public TimelineAsset leverUp;
 
     [Header("=== Assets Settings ===")]
     public ActorManager attacker;
@@ -121,6 +122,48 @@ public class DirectorManager : ActorManagerInterface
                     pd.SetGenericBinding(track, attacker.ac.anim);
                 }
                 else if (track.name == "Box Animation")
+                {
+                    pd.SetGenericBinding(track, victim.ac.anim);
+                }
+            }
+
+            pd.Play();
+        }
+        else if (timelineName == "leverUp")
+        {
+            pd.playableAsset = Instantiate(leverUp);
+
+            TimelineAsset timeline = (TimelineAsset)pd.playableAsset;
+
+            foreach (var track in timeline.GetOutputTracks())
+            {
+                if (track.name == "Player Script")
+                {
+                    pd.SetGenericBinding(track, attacker);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
+                        pd.SetReferenceValue(myclip.am.exposedName, attacker);
+                    }
+                }
+                else if (track.name == "Lever Script")
+                {
+                    pd.SetGenericBinding(track, victim);
+                    foreach (var clip in track.GetClips())
+                    {
+                        MySuperPlayableClip myclip = (MySuperPlayableClip)clip.asset;
+                        MySuperPlayableBehaviour mybehav = myclip.template;
+                        myclip.am.exposedName = System.Guid.NewGuid().ToString();
+                        pd.SetReferenceValue(myclip.am.exposedName, victim);
+                    }
+                }
+                else if (track.name == "Player Animation")
+                {
+                    pd.SetGenericBinding(track, attacker.ac.anim);
+                }
+                else if (track.name == "Lever Animation")
                 {
                     pd.SetGenericBinding(track, victim.ac.anim);
                 }
