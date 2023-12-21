@@ -6,6 +6,7 @@ public class StateManager : ActorManagerInterface
 {
     public float HPMax = 15.0f;
     public float HP = 15.0f;
+    public float ATK = 10.0f;
 
     [Header("1st order states flags")]
     public bool isGround;

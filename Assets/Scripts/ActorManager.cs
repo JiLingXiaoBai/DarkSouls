@@ -113,7 +113,7 @@ public class ActorManager : MonoBehaviour
         {
             if (attackValid)
             {
-                HitOrDie(false);
+                HitOrDie(targetWc, false);
             }
         }
         else if (sm.isImmortal)
@@ -128,7 +128,7 @@ public class ActorManager : MonoBehaviour
         {
             if (attackValid)
             {
-                HitOrDie(true);
+                HitOrDie(targetWc, true);
             }
         }
     }
@@ -143,7 +143,7 @@ public class ActorManager : MonoBehaviour
         ac.IssueTrigger("blocked");
     }
 
-    public void HitOrDie(bool doHitAnimation)
+    public void HitOrDie(WeaponController targetWc, bool doHitAnimation)
     {
         if (sm.HP <= 0)
         {
@@ -151,7 +151,7 @@ public class ActorManager : MonoBehaviour
         }
         else
         {
-            sm.AddHp(-5f);
+            sm.AddHp(-1f * targetWc.GetATK());
             if (sm.HP > 0)
             {
                 if (doHitAnimation)
