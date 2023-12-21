@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,12 +16,24 @@ public class WeaponManager : ActorManagerInterface
 
     void Start()
     {
-        whL = transform.DeepFind("weaponHandleL").gameObject;
-        whR = transform.DeepFind("weaponHandleR").gameObject;
-        wcL = BindWeaponController(whL);
-        wcR = BindWeaponController(whR);
-        weaponColL = whL.GetComponentInChildren<Collider>();
-        weaponColR = whR.GetComponentInChildren<Collider>();
+        try
+        {
+            whL = transform.DeepFind("weaponHandleL").gameObject;
+            wcL = BindWeaponController(whL);
+            weaponColL = whL.GetComponentInChildren<Collider>();
+        }
+        catch (Exception e)
+        {
+        }
+        try
+        {
+            whR = transform.DeepFind("weaponHandleR").gameObject;
+            wcR = BindWeaponController(whR);
+            weaponColR = whR.GetComponentInChildren<Collider>();
+        }
+        catch (Exception e)
+        {
+        }
     }
 
     public WeaponController BindWeaponController(GameObject targetObj)

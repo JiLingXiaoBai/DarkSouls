@@ -29,7 +29,7 @@ public class BattleManager : ActorManagerInterface
 
         if (col.tag == "Weapon")
         {
-            am.TryDoDamage(targetWc, CheckAngleTarget(receiver, attacker, 45),
+            am.TryDoDamage(targetWc, CheckAngleTarget(receiver, attacker, 70),
                 CheckAnglePlayer(receiver, attacker, 30));
         }
     }

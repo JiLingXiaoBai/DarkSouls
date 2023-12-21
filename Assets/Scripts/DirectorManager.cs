@@ -36,13 +36,17 @@ public class DirectorManager : ActorManagerInterface
     // }
     // }
 
-    public void PlayFrontStab(string timelineName, ActorManager attacker, ActorManager victim)
+    public bool IsPlaying()
     {
         if (pd.state == PlayState.Playing)
         {
-            return;
+            return true;
         }
-        
+        return false;
+    }
+
+    public void PlayFrontStab(string timelineName, ActorManager attacker, ActorManager victim)
+    {
         if (timelineName == "frontStab")
         {
             pd.playableAsset = Instantiate(frontStab);

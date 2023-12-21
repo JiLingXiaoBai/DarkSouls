@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +20,14 @@ public class ActorManager : MonoBehaviour
     {
         ac = GetComponent<ActorController>();
         GameObject model = ac.model;
-        GameObject sensor = transform.Find("sensor").gameObject;
-
+        GameObject sensor = null;
+        try
+        {
+            sensor = transform.Find("sensor").gameObject;
+        }
+        catch (Exception e)
+        {
+        }
         bm = Bind<BattleManager>(sensor);
         wm = Bind<WeaponManager>(model);
         sm = Bind<StateManager>(gameObject);
@@ -34,7 +41,7 @@ public class ActorManager : MonoBehaviour
     {
         if (im.overlapEcastms.Count != 0)
         {
-            if (im.overlapEcastms[0].active == true)
+            if (im.overlapEcastms[0].active == true && !dm.IsPlaying())
             {
                 if (im.overlapEcastms[0].eventName == "frontStab")
                 {
@@ -70,6 +77,10 @@ public class ActorManager : MonoBehaviour
     private T Bind<T>(GameObject go) where T : ActorManagerInterface
     {
         T tempInst;
+        if (go == null)
+        {
+            return null;
+        }
         tempInst = go.GetComponent<T>();
         if (tempInst == null)
         {
