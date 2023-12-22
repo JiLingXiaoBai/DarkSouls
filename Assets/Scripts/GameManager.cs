@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    private DataBase weaponDB;
+    private WeaponFactory weaponFact;
 
     void Awake()
     {
@@ -14,7 +16,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        TextAsset myText = Resources.Load("abc") as TextAsset;
+        InitWeaponDB();
+        InitWeaponFactory();
+
+        weaponFact.CreateWeapon("Falchion", transform);
+    }
+
+    private void InitWeaponDB()
+    {
+        weaponDB = new DataBase();
+    }
+
+    private void InitWeaponFactory()
+    {
+        weaponFact = new WeaponFactory(weaponDB);
     }
 
     private void CheckGameObject()
