@@ -15,6 +15,11 @@ public class ActorManager : MonoBehaviour
     public DirectorManager dm;
     public InteractionManager im;
 
+    [Header("===== Override Animators =====")]
+    public AnimatorOverrideController oneHandAnim;
+
+    public AnimatorOverrideController twoHandAnim;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -190,5 +195,17 @@ public class ActorManager : MonoBehaviour
     public void LockUnlockActorController(bool value)
     {
         ac.SetBool("lock", value);
+    }
+
+    public void ChangeDualHands(bool dualOn)
+    {
+        if (dualOn)
+        {
+            ac.anim.runtimeAnimatorController = twoHandAnim;
+        }
+        else
+        {
+            ac.anim.runtimeAnimatorController = oneHandAnim;
+        }
     }
 }

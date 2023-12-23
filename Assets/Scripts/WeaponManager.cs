@@ -36,6 +36,40 @@ public class WeaponManager : ActorManagerInterface
         }
     }
 
+    public void UpdateWeaponCollider(string side, Collider col)
+    {
+        if (side == "L")
+        {
+            weaponColL = col;
+        }
+        else if (side == "R")
+        {
+            weaponColR = col;
+        }
+    }
+
+    public void UnloadWeapon(string side)
+    {
+        if (side == "L")
+        {
+            foreach (Transform trans in whL.transform)
+            {
+                weaponColL = null;
+                wcL.wdata = null;
+                Destroy(trans.gameObject);
+            }
+        }
+        else if (side == "R")
+        {
+            foreach (Transform trans in whL.transform)
+            {
+                weaponColR = null;
+                wcR.wdata = null;
+                Destroy(transform.gameObject);
+            }
+        }
+    }
+
     public WeaponController BindWeaponController(GameObject targetObj)
     {
         WeaponController tempWc;
@@ -74,5 +108,10 @@ public class WeaponManager : ActorManagerInterface
     public void CounterBackDisable()
     {
         am.SetIsCounterBack(false);
+    }
+
+    public void ChangeDualHands(bool dualOn)
+    {
+        am.ChangeDualHands(dualOn);
     }
 }

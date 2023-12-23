@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         {
             cameraGO = GameObject.Find("Camera");
             lockDot.enabled = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            // Cursor.lockState = CursorLockMode.Locked;
         }
 
         lockState = false;
